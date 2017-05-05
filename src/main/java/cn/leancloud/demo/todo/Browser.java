@@ -29,6 +29,7 @@ class Browser {
 			@Override
 			public void onFailure(Call call, IOException e) {
 				logger.info("onFailure");
+				return;
 			}
 			@Override
 			public void onResponse(Call call, Response response) throws IOException {

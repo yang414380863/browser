@@ -15,8 +15,9 @@ import static cn.leancloud.demo.todo.Browser.websiteNow;
 
 public class Cloud {
   static final Logger logger = LogManager.getLogger(Cloud.class);
-  static private int positionWebsite =0;
-  static private int positionCategory =0;
+  private static int positionWebsite =0;
+  private static int positionCategory =0;
+  private static boolean hasInit;
 
   static ItemRule rulePOOCG=new ItemRule();
   final static Website POOCG=new Website("Poocg","https://www.poocg.com/works/index/type/new",rulePOOCG);
@@ -29,9 +30,7 @@ public class Cloud {
 
   final static Website[] websites=new Website[]{POOCG,DEVIANTART,UNSPLASH,LEIFENG};//先暂时这样写WebsiteList 以后再动态生成
 
-  @EngineFunction("Update")
-  public static void Update() {
-
+  public static void init(){
     POOCG.setItemSelector("li:has(div.imgbox)");
     rulePOOCG.setLinkRule(new Rule("div.imgbox > a[href]","attr","href"));
     rulePOOCG.setThumbnailRule(new Rule("div.imgbox > a > img[src]","attr","src"));
@@ -74,6 +73,14 @@ public class Cloud {
             ,"AR/VR","http://www.leiphone.com/category/arvr","机器人","http://www.leiphone.com/category/robot","Fintect","http://www.leiphone.com/category/fintech","物联网","http://www.leiphone.com/category/iot"
             ,"未来医疗","http://www.leiphone.com/category/aihealth","只能硬件","http://www.leiphone.com/category/weiwu","AI+","http://www.leiphone.com/category/aijuejinzhi"});
 
+    hasInit=true;
+  }
+  @EngineFunction("Update")
+  public static void Update() {
+
+    if (!hasInit){
+      init();
+    }
 
     websiteNow=websites[positionWebsite];
     if (websiteNow.getCategory()!=null) {
