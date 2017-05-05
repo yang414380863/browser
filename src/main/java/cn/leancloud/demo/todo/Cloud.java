@@ -17,7 +17,7 @@ public class Cloud {
   static final Logger logger = LogManager.getLogger(Cloud.class);
   private static int positionWebsite =0;
   private static int positionCategory =0;
-  private static boolean hasInit;
+  private static boolean hasInit=false;
 
   static ItemRule rulePOOCG=new ItemRule();
   final static Website POOCG=new Website("Poocg","https://www.poocg.com/works/index/type/new",rulePOOCG);
@@ -30,6 +30,7 @@ public class Cloud {
 
   final static Website[] websites=new Website[]{POOCG,DEVIANTART,UNSPLASH,LEIFENG};//先暂时这样写WebsiteList 以后再动态生成
 
+  @EngineFunction("init")
   public static void init(){
     POOCG.setItemSelector("li:has(div.imgbox)");
     rulePOOCG.setLinkRule(new Rule("div.imgbox > a[href]","attr","href"));
@@ -58,7 +59,7 @@ public class Cloud {
     ruleUNSPLASH.setTitleRule(new Rule("a[class=_3XzpS _3myVE _2zITg]","text","()([a-z|A-Z|\\s]+)",new String[]{"Photo By: ",""}));
     UNSPLASH.setDetailItemSelector("div.RN0KT");
     ruleUNSPLASH.setImgRule(new Rule("*","attr","style","(https:\\/\\/images\\.unsplash\\.com\\/[a-z|0-9|&||\\/|-]+)",new String[]{""}));
-    UNSPLASH.setCategory(new String[]{"home","https://unsplash.com/","New","https://unsplash.com/new","Following","https://unsplash.com/following"});
+    UNSPLASH.setCategory(new String[]{"home","https://unsplash.com/","New","https://unsplash.com/new"});
     //ruleUNSPLASH.setNextPageRule(new Rule());没写下一页RULE
 
     LEIFENG.setItemSelector("li > div.box:has(div.img)");
@@ -77,7 +78,7 @@ public class Cloud {
   }
   @EngineFunction("Update")
   public static void Update() {
-
+    logger.info("begin Update");
     if (!hasInit){
       init();
     }
@@ -94,7 +95,13 @@ public class Cloud {
         positionWebsite++;
         if (positionWebsite<websites.length){
           Browser.sendRequest(websiteNow);
+        }else {
+          positionWebsite =0;
+          positionCategory =0;
+          logger.info("finish===============================================");
+          return;
         }
+
       }
     }
   }

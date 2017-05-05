@@ -38,14 +38,15 @@ class Browser {
 				 }
 			 });
 		 }catch (Exception e){
-		 	e.printStackTrace();
+			 logger.info(e);
 		 }
 	}
 
 	static void analysis(Document doc){
 		Elements list = doc.select(websiteNow.getItemSelector());
 		if (list.size()==0){
-			logger.info("Can't find,Size=0");
+			logger.info("Can't find"+websiteNow.getIndexUrl());
+			Cloud.Update();
 		}else {
 			final String link=SelectorAndRegex.getItemData(doc,websiteNow,"Link",0);
 			final String index=websiteNow.getIndexUrl();
@@ -90,7 +91,7 @@ class Browser {
 							}
 						});
 					}else {
-						//logger.info("has exist");
+						logger.info("has exist");
 					}
 					Cloud.Update();
 				}
