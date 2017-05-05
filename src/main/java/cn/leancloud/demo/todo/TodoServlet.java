@@ -22,7 +22,7 @@ public class TodoServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     String offsetParam = req.getParameter("offset");
     int offset = 0;
     if (!AVUtils.isBlankString(offsetParam)) {
@@ -42,7 +42,7 @@ public class TodoServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     String content = req.getParameter("content");
 
     try {

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.Date;
@@ -38,11 +39,11 @@ class Browser {
 	}
 
 	static void analysis(Document doc){
-		int sizeL=doc.select(websiteNow.getRuleAll().getLinkRule().getSelector()).size();
-		if (sizeL==0){
+		Elements list = doc.select(websiteNow.getItemSelector());
+		if (list.size()==0){
 			logger.info("Can't find,Size=0");
 		}else {
-			final String link=SelectorAndRegex.get(doc,websiteNow.getRuleAll().getLinkRule(),0);
+			final String link=SelectorAndRegex.getItemData(doc,websiteNow,"Link",0);
 			final String index=websiteNow.getIndexUrl();
 			//logger.info("link:"+link);
 
