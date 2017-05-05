@@ -20,23 +20,26 @@ class Browser {
 		websiteNow =website;
 		String url=websiteNow.getIndexUrl();
 		//logger.info("index:"+url);
-		OkHttpClient client = new OkHttpClient();
-		final Request request = new Request.Builder()
-				.url(url)
-				.build();
-		Call call = client.newCall(request);
-		call.enqueue(new Callback() {
-			@Override
-			public void onFailure(Call call, IOException e) {
-				logger.info("onFailure");
-				return;
-			}
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				Document doc= Jsoup.parse(response.body().string());
-				analysis(doc);
-			}
-		});
+		 try{
+			 OkHttpClient client = new OkHttpClient();
+			 final Request request = new Request.Builder()
+					 .url(url)
+					 .build();
+			 Call call = client.newCall(request);
+			 call.enqueue(new Callback() {
+				 @Override
+				 public void onFailure(Call call, IOException e) {
+					 logger.info("onFailure");
+				 }
+				 @Override
+				 public void onResponse(Call call, Response response) throws IOException {
+					 Document doc= Jsoup.parse(response.body().string());
+					 analysis(doc);
+				 }
+			 });
+		 }catch (Exception e){
+		 	e.printStackTrace();
+		 }
 	}
 
 	static void analysis(Document doc){
@@ -72,7 +75,8 @@ class Browser {
 									add.saveInBackground();
 								}else{
 									//有更新内容
-									logger.info("update");
+									//logger.info("update");
+									logger.info(link);
 									for (AVObject item : list) {
 										String id = item.getObjectId();
 										item.put("link",link);
