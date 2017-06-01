@@ -3,6 +3,7 @@ package cn.leancloud.demo.todo;
 
 import org.jsoup.nodes.Document;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,22 +23,6 @@ public class SelectorAndRegex {
                 rule=website.getItemRule().getLinkRule();
                 break;
             }
-            case "Title":{
-                rule=website.getItemRule().getTitleRule();
-                break;
-            }
-            case "Thumbnail":{
-                rule=website.getItemRule().getThumbnailRule();
-                break;
-            }
-            case "Img":{
-                rule=website.getItemRule().getImgRule();
-                break;
-            }
-            case "Article":{
-                rule=website.getItemRule().getArticleRule();
-                break;
-            }
             default:
                 rule=website.getItemRule().getLinkRule();//肯定不触发
                 break;
@@ -54,110 +39,23 @@ public class SelectorAndRegex {
             string=doc.select(website.getItemSelector()).get(position).select(rule.getSelector()).attr(rule.getAttribute());
         }else if (rule.getMethod().equals("text")){
             string=doc.select(website.getItemSelector()).get(position).select(rule.getSelector()).text();
+        }else if (rule.getMethod().equals("html")){
+            string=doc.select(website.getDetailItemSelector()).get(position).select(rule.getSelector()).html();
         }
         if (rule.getRegex()!=null){
             //用正则
             Pattern pattern=Pattern.compile(rule.getRegex());
             Matcher matcher=pattern.matcher(string);
-            string="";
+            ArrayList<String> strings=new ArrayList<>();
             if (matcher.find()){
                 for (int i=0;i<matcher.groupCount();i++){
-                    string+=matcher.group(i+1)+rule.getReplace()[i];
+                    strings.add("");
+                    strings.set(i,matcher.group(i+1));
                 }
             }
-        }
-        return string;
-    }
-
-    public static String getOtherData(Document doc,Website website,String ruleString){
-        return getOtherData(doc,website,ruleString,0,0);
-    }
-    public static String getOtherData(Document doc,Website website,String ruleString,int sizeNow,int pageNow){
-        //判断是哪个Rule
-        Rule rule;
-        switch (ruleString){
-            case "NextPage":{
-                rule=website.getNextPageRule();
-                break;
-            }
-            case "NextPageDetail":{
-                rule=website.getNextPageDetailRule();
-                break;
-            }
-            default:
-                rule=website.getNextPageRule();//肯定不触发
-                break;
-        }
-        //先用选择器
-        if (doc.select(rule.getSelector()).size()==0){
-            //匹配不到
-            return "";
-        }
-        string=doc.select(rule.getSelector()).attr(rule.getAttribute());
-        if (rule.getRegex()!=null){
-            //用正则
-            Pattern pattern=Pattern.compile(rule.getRegex());
-            Matcher matcher=pattern.matcher(string);
-            string="";
-            if (matcher.find()){
-                for (int i=0;i<matcher.groupCount();i++){
-                    switch(rule.getReplace()[i]){
-                        case "size":{
-                            string+=matcher.group(i+1)+sizeNow;
-                            break;
-                        }
-                        case "page":{
-                            string+=matcher.group(i+1)+pageNow;
-                            break;
-                        }
-                        default:
-                            string+=matcher.group(i+1)+rule.getReplace()[i];
-                            break;
-                    }
-                }
-            }
-        }
-        return string;
-    }
-
-    public static String getDetailData(Document doc,Website website,String ruleString,int position){
-        //判断是哪个Rule
-        Rule rule;
-        switch (ruleString){
-            case "Img":{
-                rule=website.getItemRule().getImgRule();
-                break;
-            }
-            case "Article":{
-                rule=website.getItemRule().getArticleRule();
-                break;
-            }
-            default:
-                rule=website.getItemRule().getImgRule();//肯定不触发
-                break;
-        }
-        if (rule==null){
-            return "";
-        }
-        //先用选择器
-        if (doc.select(website.getDetailItemSelector()).size()==0){
-            //匹配不到
-            return "";
-        }
-        if (rule.getMethod().equals("attr")){
-            string=doc.select(website.getDetailItemSelector()).get(position).select(rule.getSelector()).attr(rule.getAttribute());
-        }else if (rule.getMethod().equals("text")){
-            string=doc.select(website.getDetailItemSelector()).get(position).select(rule.getSelector()).text();
-        }
-        if (rule.getRegex()!=null){
-            //用正则
-            Pattern pattern=Pattern.compile(rule.getRegex());
-            Matcher matcher=pattern.matcher(string);
-            string="";
-            if (matcher.find()){
-                for (int i=0;i<matcher.groupCount();i++){
-                    string+=matcher.group(i+1)+rule.getReplace()[i];
-                }
+            string=rule.getReplace();
+            for (int i=1;i-1<strings.size();i++){
+                string=string.replace("$"+i,strings.get(i-1));
             }
         }
         return string;
