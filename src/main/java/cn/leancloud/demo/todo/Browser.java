@@ -57,7 +57,7 @@ class Browser {
 			isLinkExist.findInBackground(new FindCallback<AVObject>() {
 				@Override
 				public void done(List<AVObject> list2, AVException e) {
-					if(list2==null){}
+					if(list2==null){return;}
 					else if (list2.size()==0){
 						//没找到一样link的=>是第一次添加 或者 有更新内容
 						AVQuery<AVObject> getOldItem=new AVQuery<>("Website");
@@ -66,8 +66,8 @@ class Browser {
 							@Override
 							public void done(List<AVObject> list, AVException e) {
 								//logger.info("list"+list);
-								if (list==null){}
-								else if (list.isEmpty()){
+								if (list==null){return;}
+								else if (list.size()==0){
 									//是第一次添加
 									//logger.info("first add");
 									AVObject add = new AVObject("Website");
@@ -105,6 +105,11 @@ class Browser {
 		JSONObject jsonObject = JSONObject.parseObject(message);
 		push.setPushToAndroid(true);
 		push.setData(jsonObject);
+		//push.sendInBackground();
+
+		AVQuery pushQuery = new AVQuery("_Installation");
+		pushQuery.whereContains("mark", index);
+		push.setQuery(pushQuery);
 		push.sendInBackground();
 	}
 }
