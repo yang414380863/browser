@@ -106,10 +106,10 @@ class Browser {
 		push.setPushToAndroid(true);
 		push.setData(jsonObject);
 		//push.sendInBackground();
-/*
+
 		AVQuery pushQuery = new AVQuery("_Installation");
 		pushQuery.whereContains("mark", index);
-		push.setQuery(pushQuery);*/
+		push.setQuery(pushQuery);
 		push.sendInBackground();
 	}
 }
