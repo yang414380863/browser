@@ -23,8 +23,6 @@ public class Cloud {
   final static Website POOCG=new Website("Poocg","https://www.poocg.com/works/index/type/new",rulePOOCG);
   static ItemRule ruleDEVIANTART=new ItemRule();
   final static Website DEVIANTART=new Website("Deviantart","http://www.deviantart.com/browse/all/?order=67108864",ruleDEVIANTART);
-  static ItemRule ruleUNSPLASH=new ItemRule();
-  final static Website UNSPLASH=new Website("Unsplash","https://unsplash.com/",ruleUNSPLASH);
   static ItemRule ruleLEIFENG=new ItemRule();
   final static Website LEIFENG=new Website("雷锋网","http://www.leiphone.com/category/sponsor",ruleLEIFENG);
   static ItemRule ruleHAOQIXIN=new ItemRule();
