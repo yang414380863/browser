@@ -15,8 +15,8 @@ import static cn.leancloud.demo.todo.Browser.websiteNow;
 
 public class Cloud {
   static final Logger logger = LogManager.getLogger(Cloud.class);
-  private static int positionWebsite =0;
-  private static int positionCategory =0;
+  static int positionWebsite =0;
+  static int positionCategory =0;
   private static boolean hasInit=false;
 
   static ItemRule rulePOOCG=new ItemRule();
@@ -68,13 +68,13 @@ public class Cloud {
       if (positionCategory <websiteNow.getCategory().length){
         websiteNow.setIndexUrl(websiteNow.getCategory()[positionCategory +1]);
         positionCategory +=2;
-        //logger.info("index:"+websiteNow.getIndexUrl());
-        Browser.sendRequest(websiteNow);
+        logger.info("index:"+websiteNow.getIndexUrl());
+        //Browser.sendRequest(websiteNow);
       }else {
         positionCategory =0;
         positionWebsite++;
         if (positionWebsite<websites.length){
-          Browser.sendRequest(websiteNow);
+          //Browser.sendRequest(websiteNow);
         }else {
           positionWebsite =0;
           positionCategory =0;
