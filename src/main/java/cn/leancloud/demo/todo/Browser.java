@@ -50,7 +50,7 @@ class Browser {
 		}else {
 			final String link=SelectorAndRegex.getItemData(doc,websiteNow,"Link",0);
 			final String index=websiteNow.getIndexUrl();
-			//logger.info("link:"+link);
+			logger.info("analysis link:"+link);
 
 			AVQuery<AVObject> isLinkExist = new AVQuery<>("Website");
 			isLinkExist.whereStartsWith("link", link);
