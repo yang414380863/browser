@@ -46,39 +46,19 @@ public class Rule {
         return selector;
     }
 
-    public void setSelector(String selector) {
-        this.selector = selector;
-    }
-
     public String getAttribute() {
         return attribute;
-    }
-
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
     }
 
     public String getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
     public String getRegex() {
         return regex;
     }
 
-    public void setRegex(String regex) {
-        this.regex = regex;
-    }
-
     public String getReplace() {
         return replace;
-    }
-
-    public void setReplace(String replace) {
-        this.replace = replace;
     }
 }

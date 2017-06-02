@@ -19,7 +19,7 @@ class Browser {
 	static void sendRequest(final Website website){
 		websiteNow =website;
 		String url=websiteNow.getIndexUrl();
-		//logger.info("index:"+url);
+		logger.info("sendRequest index:"+url);
 		 try{
 			 OkHttpClient client = new OkHttpClient();
 			 final Request request = new Request.Builder()
