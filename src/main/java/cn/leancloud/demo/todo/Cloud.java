@@ -69,7 +69,7 @@ public class Cloud {
         websiteNow.setIndexUrl(websiteNow.getCategory()[positionCategory +1]);
         positionCategory +=2;
         logger.info("index:"+websiteNow.getIndexUrl());
-        //Browser.sendRequest(websiteNow);
+        Browser.sendRequest(websiteNow);
       }else {
         positionCategory =0;
         positionWebsite++;
