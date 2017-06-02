@@ -46,7 +46,7 @@ class Browser {
 		Elements list = doc.select(websiteNow.getItemSelector());
 		if (list.size()==0){
 			logger.info("Can't find"+websiteNow.getIndexUrl());
-			Cloud.Update();
+			//Cloud.Update();
 		}else {
 			final String link=SelectorAndRegex.getItemData(doc,websiteNow,"Link",0);
 			final String index=websiteNow.getIndexUrl();
@@ -93,7 +93,7 @@ class Browser {
 					}else {
 						logger.info("has exist");
 					}
-					Cloud.Update();
+					//Cloud.Update();
 				}
 			});
 		}
